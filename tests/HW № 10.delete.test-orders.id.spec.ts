@@ -1,22 +1,16 @@
 import { expect, test } from '@playwright/test'
 
-test('delete order with correct params  should receive code 204', 
-  async ({ request }) => {
-  const response = await request.delete(
-    'https://backend.tallinn-learning.ee/test-orders/1',
-    {
-      headers: {
-        api_key: '1234567890123456',
-      }
-    }
-  )
-    expect(response.status()).toBe(204)
-
+test('delete order with correct params  should receive code 204', async ({ request }) => {
+  const response = await request.delete('https://backend.tallinn-learning.ee/test-orders/1', {
+    headers: {
+      api_key: '1234567890123456',
+    },
   })
+  expect(response.status()).toBe(204)
+})
 
 test('delete order with api key is missing  should receive code 401', async ({ request }) => {
-  const response =
-    await request.delete('https://backend.tallinn-learning.ee/test-orders/2', {
+  const response = await request.delete('https://backend.tallinn-learning.ee/test-orders/2', {
     headers: {
       api_key: '',
     },
@@ -34,8 +28,7 @@ test('delete order with api key is invalid  should receive code 401', async ({ r
 })
 
 test('delete order with api key is not 16 digits  should receive code 401', async ({ request }) => {
-  const response =
-    await request.delete('https://backend.tallinn-learning.ee/test-orders/3', {
+  const response = await request.delete('https://backend.tallinn-learning.ee/test-orders/3', {
     headers: {
       api_key: '123456789',
     },

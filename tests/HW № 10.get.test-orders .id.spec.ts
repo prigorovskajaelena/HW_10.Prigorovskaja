@@ -9,7 +9,7 @@ test('get order with incorrect id=0 should receive code 400', async ({ request }
   const statusCode = response.status()
   console.log('response body:', responseBody)
   expect(statusCode).toBe(400)
-  });
+})
 
 test('get order with incorrect id=11 should receive code 400', async ({ request }) => {
   // Build and send a GET request to the server
@@ -18,7 +18,7 @@ test('get order with incorrect id=11 should receive code 400', async ({ request 
   const statusCode = response.status()
   console.log('response body:', responseBody)
   expect(statusCode).toBe(400)
-});
+})
 
 test('get order with incorrect id=ABCD should receive code 400', async ({ request }) => {
   const response = await request.get('https://backend.tallinn-learning.ee/test-orders/ABCD')
@@ -35,7 +35,7 @@ test('get order with incorrect id=ABCD should receive code 400', async ({ reques
   //Вот в этом тесте
   //HW № 10.get.test-orders.u.name,passw.spec.ts
   // test('get order with incorrect name & correct password  should receive code 400')
-});
+})
 
 test('get order with incorrect id=" " should receive code 400', async ({ request }) => {
   // Build and send a GET request to the server
@@ -45,9 +45,11 @@ test('get order with incorrect id=" " should receive code 400', async ({ request
   const statusCode = response.status()
   console.log('response body:', responseBody)
   expect(statusCode).toBe(400)
-}); //Тест упал: Expected: 400, Received: 405
+}) //Тест упал: Expected: 400, Received: 405
 
-test('get order with incorrect id= symbols "[]{}@£=" should receive code 400', async ({ request }) => {
+test('get order with incorrect id= symbols "[]{}@£=" should receive code 400', async ({
+  request,
+}) => {
   // Build and send a GET request to the server
   const response = await request.get('https://backend.tallinn-learning.ee/test-orders/"[]{}@£="')
   // parse raw response body to json
