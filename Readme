@@ -1,0 +1,95 @@
+# API Test Checklist – GET /test-orders/auth
+
+---
+
+## Positive Test Cases
+
+| # | Test Description | Request Parameters | Expected Status | Notes |
+|---|-----------------|------------------|----------------|-------|
+| 1 | Get order with correct username & password | `username=elena`, `password=elena` | 200 | Response body should contain order data |
+
+---
+
+## Negative Test Cases – Invalid Inputs
+
+| # | Test Description | Request Parameters | Expected Status | Notes |
+|---|-----------------|------------------|----------------|-------|
+| 2 | Get order with incorrect username | `username=123`, `password=elena` | 400 | Actual API returned 200 – possible API/Swagger mismatch |
+| 3 | Get order with empty username | `username= `, `password=elena` | 400 | Actual API returned 200 – API accepts empty string as valid username |
+| 4 | Get order with incorrect password | `username=elena`, `password=£@!$` | 400 | Actual API returned 200 – API does not validate special characters |
+| 5 | Get order without username | `password=elena` | 500 | API crashed – server error |
+| 6 | Get order without password | `username=elena` | 500 | API crashed – server error |
+
+---
+
+## Notes / Observations
+
+- Several negative tests fail because **API does not strictly validate inputs**.
+- Requests without required parameters (`username` or `password`) return **500**, indicating **server-side error**.
+- Log these as **documentation vs actual behavior discrepancies** for the team.
+
+
+# API Test Checklist – PUT /test-orders
+
+---
+
+## Positive Test Cases – Update Order
+
+| # | Test Description | Request Parameters | Expected Status | Notes |
+|---|-----------------|------------------|----------------|-------|
+| 1 | Update order with correct id=1 and valid api_key | `id=1`, valid `api_key` | 200 | Response body should reflect updated fields |
+| 2 | Update order with correct id=2 and valid api_key | `id=2`, valid `api_key` | 200 | Response body should reflect updated fields |
+| 3 | Update order with correct id=5 and valid api_key | `id=5`, valid `api_key` | 200 | Response body should reflect updated fields |
+| 4 | Update order with correct id=9 and valid api_key | `id=9`, valid `api_key` | 200 | Response body should reflect updated fields |
+| 5 | Update order with correct id=10 and valid api_key | `id=10`, valid `api_key` | 200 | Response body should reflect updated fields |
+
+> 💡 Note: Positive tests can be simplified with a **loop over order IDs** instead of repeating code.
+
+---
+
+## Negative Test Cases – Invalid API Key or Body
+
+| # | Test Description | Request Parameters | Expected Status | Notes |
+|---|-----------------|------------------|----------------|-------|
+| 1 | Update order with api_key not 16 digits | `id=2`, `api_key='1234567890'` | 401 | API should reject invalid key length |
+| 2 | Update order with empty api_key | `id=3`, `api_key=''` | 401 | API should reject empty key |
+| 3 | Update order with invalid api_key | `id=3`, `api_key='abcd{£$'` | 401 | API should reject invalid key format |
+| 4 | Update order with missing api_key | `id=3`, no `api_key` | 401 | API should reject missing key |
+| 5 | Update order with empty request body | `id=3`, empty body `{}` | 404 | According to docs, should return 404; actual API returned 200 – documentation mismatch |
+
+---
+
+## Notes / Observations
+
+- Negative tests for invalid/missing API keys behave correctly (401).
+- Test with empty request body fails (expected 404, got 200) – this should be logged as a **documentation discrepancy**.
+- Positive tests could be **optimized using a loop over multiple IDs** to reduce repeated code.
+
+
+# API Test Checklist – DELETE /test-orders
+
+---
+
+## Positive Test Cases – Delete Order
+
+| # | Test Description | Request Parameters | Expected Status | Notes |
+|---|-----------------|------------------|----------------|-------|
+| 1 | Delete order with correct id and valid api_key | `id=1`, valid `api_key` | 204 | No response body; order should be deleted |
+
+---
+
+## Negative Test Cases – Invalid or Missing API Key
+
+| # | Test Description | Request Parameters | Expected Status | Notes |
+|---|-----------------|------------------|----------------|-------|
+| 1 | Delete order with missing api_key | `id=2`, `api_key=''` | 401 | API should reject missing key |
+| 2 | Delete order with invalid api_key | `id=2`, `api_key='abcd{£$'` | 401 | API should reject invalid key format |
+| 3 | Delete order with api_key not 16 digits | `id=3`, `api_key='123456789'` | 401 | API should reject key of incorrect length |
+
+---
+
+## Notes / Observations
+
+- Positive test (204) returns **no body**, so do not attempt to parse JSON.
+- Negative tests correctly return **401 Unauthorized** when api_key is invalid, missing, or wrong length.
+- For completeness, after a successful DELETE, a **GET request for the same ID** can be used to confirm the order is removed (expect 404).
