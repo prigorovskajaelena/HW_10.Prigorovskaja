@@ -3,16 +3,16 @@ import { ProductDto } from '../dto/product.dto'
 
 //import { StatusCodes } from 'http-status-codes' //эта строка не работает.
 
-test.describe ('Get/products', () => {
+test.describe('Get/products', () => {
   const baseEndPointURL = 'https://backend.tallinn-learning.ee/products'
 
   test('GET/orders -check API returns array with length >=1', async ({ request }) => {
     const apiKey = { 'X-API-Key': 'my-secret-api-key' }
     const response = await request.get(baseEndPointURL, {
-      headers: apiKey
+      headers: apiKey,
     })
 
-    const responseBody: ProductDto [] = await response.json()
+    const responseBody: ProductDto[] = await response.json()
     const statusCode = response.status()
     console.log(responseBody.length)
     expect(statusCode).toBe(200)
@@ -22,17 +22,17 @@ test.describe ('Get/products', () => {
 
   test('GET/orders with invalid apiKey', async ({ request }) => {
     const response = await request.get(baseEndPointURL, {
-      headers:  {'X-API-Key': ' '}
+      headers: { 'X-API-Key': ' ' },
     })
 
-    const responseBody: ProductDto [] = await response.json()
+    const responseBody: ProductDto[] = await response.json()
     const statusCode = response.status()
     console.log('response body:', responseBody)
-   expect(statusCode).toBe(400)
+    expect(statusCode).toBe(400)
     //тест упал:
     //Expected: 400
     // Received: 401
-  //   Как получить код 400, если мы ничего, кроме
-  //   апи кей не передаем в гет запросе?
+    //   Как получить код 400, если мы ничего, кроме
+    //   апи кей не передаем в гет запросе?
   })
-  })
+})

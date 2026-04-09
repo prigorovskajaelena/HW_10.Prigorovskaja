@@ -17,7 +17,7 @@ test.describe('Put/products update product with correct api key', () => {
       headers: apiKey,
     })
 
-    const responseBody: ProductDto= await response.json()
+    const responseBody: ProductDto = await response.json()
     const statusCode = response.status()
     console.log('responseBody:', responseBody)
     expect(statusCode).toBe(200)
@@ -40,4 +40,3 @@ test.describe('Put/products update product with correct api key', () => {
     expect(statusCode).toBe(400)
   })
 })
-

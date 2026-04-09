@@ -6,20 +6,19 @@ test.describe('Get/products by id-checks with correct api key', () => {
   const baseEndPointURL = 'https://backend.tallinn-learning.ee/products'
   const apiKey = { 'X-API-Key': 'my-secret-api-key' }
   test('GET/orders  with correct id', async ({ request }) => {
-
     const response = await request.get(`${baseEndPointURL}/124`, {
       headers: apiKey,
     })
 
     const responseBody: ProductDto[] = await response.json()
     const statusCode = response.status()
-    console.log('responseBody:' , responseBody)
+    console.log('responseBody:', responseBody)
     expect(statusCode).toBe(200)
   })
 
   test('GET/orders with incorrect id', async ({ request }) => {
     const response = await request.get(`${baseEndPointURL}/abc`, {
-      headers: apiKey
+      headers: apiKey,
     })
 
     const responseBody: ProductDto[] = await response.json()
