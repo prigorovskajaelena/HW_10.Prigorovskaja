@@ -1,37 +1,28 @@
 import { expect, test } from '@playwright/test'
-import { ProductDto } from '../dto/product.dto'
+import { ProductType } from '../types/productType'
+import { ProductDTO } from '../src/dto/ProductDTO'
 //import { StatusCodes } from 'http-status-codes' //эта строка не работает.
 
 test.describe('Post/products create product with params', () => {
   const baseEndPointURL = 'https://backend.tallinn-learning.ee/products'
   const apiKey = { 'X-API-Key': 'my-secret-api-key' }
   test('create product  with correct id and body', async ({ request }) => {
-    const requestBody = {
-      id: 0,
-      name: 'ElenaP',
-      price: 7,
-      createdAt: null,
-    }
+    const dtoBody=ProductDTO.generateDefaultPosit();
     const response = await request.post(`${baseEndPointURL}`, {
-      data: requestBody,
+      data: dtoBody,
       headers: apiKey,
     })
 
-    const responseBody: ProductDto = await response.json()
+    const responseBody: ProductType = await response.json()
     const statusCode = response.status()
     console.log('responseBody:', responseBody)
     expect(statusCode).toBe(200)
   })
 
   test('create product  with incorrect body', async ({ request }) => {
-    const incorrectRequestBody = {
-      id: 0,
-      name: '',
-      price: -10,
-      createdAt: null,
-    }
+    const incorrDtoBody = ProductDTO.generateDefaultNegat()
     const response = await request.post(`${baseEndPointURL}`, {
-      data: incorrectRequestBody,
+      data: incorrDtoBody,
       headers: apiKey,
     })
 
