@@ -7,7 +7,7 @@ test.describe('Post/products create product with params', () => {
   const baseEndPointURL = 'https://backend.tallinn-learning.ee/products'
   const apiKey = { 'X-API-Key': 'my-secret-api-key' }
   test('create product  with correct id and body', async ({ request }) => {
-    const dtoBody=ProductDTO.generateDefaultPosit();
+    const dtoBody = ProductDTO.generateDefaultPosit()
     const response = await request.post(`${baseEndPointURL}`, {
       data: dtoBody,
       headers: apiKey,
