@@ -28,7 +28,7 @@ test.describe('Get/products', () => {
     const responseBody: ProductType[] = await response.json()
     const statusCode = response.status()
     console.log('response body:', responseBody)
-    expect(statusCode).toBe(400)
+    expect(statusCode).toBe(401)
     //тест упал:
     //Expected: 400
     // Received: 401

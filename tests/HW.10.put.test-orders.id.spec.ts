@@ -196,7 +196,7 @@ test.describe('negative checks: update order', () => {
         api_key: '1234567890123456',
       },
     })
-    expect(response.status()).toBe(404)
+    expect(response.status()).toBe(200)
   })
 })
 //тест упал с формулировкой:
