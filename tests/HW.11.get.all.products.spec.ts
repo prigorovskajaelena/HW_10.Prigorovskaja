@@ -14,8 +14,8 @@ test.describe('Get/products', () => {
     })
 
     const responseBody: Product[] = await response.json()
-    const firstProduct=ProductSchema.parse(responseBody[0])
-    expect (firstProduct.createdAt).toBeNull()
+    const firstProduct = ProductSchema.parse(responseBody[0])
+    expect(firstProduct.createdAt).toBeNull()
     const statusCode = response.status()
     console.log(responseBody.length)
     expect(statusCode).toBe(200)

@@ -19,7 +19,7 @@ test.describe('login api tests', () => {
 
     // const TestLoginSchema=z.string()
     const token: z.infer<typeof LoginSchema> = await loginResponse.text()
-    const TestToken=LoginSchema.parse(token)
+    const TestToken = LoginSchema.parse(token)
     console.log(TestToken)
     expect(loginResponse.status()).toBe(200)
     expect(token.length).toBeGreaterThan(0)
