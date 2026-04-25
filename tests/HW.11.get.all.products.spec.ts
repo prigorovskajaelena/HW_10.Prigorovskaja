@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { ProductType } from '../types/productType'
+import { ProductSchema, Product } from '../src/dto/ProductDTO'
 
 //import { StatusCodes } from 'http-status-codes' //эта строка не работает.
 
@@ -12,7 +13,9 @@ test.describe('Get/products', () => {
       headers: apiKey,
     })
 
-    const responseBody: ProductType[] = await response.json()
+    const responseBody: Product[] = await response.json()
+    const firstProduct = ProductSchema.parse(responseBody[0])
+    expect(firstProduct.createdAt).toBeNull()
     const statusCode = response.status()
     console.log(responseBody.length)
     expect(statusCode).toBe(200)
